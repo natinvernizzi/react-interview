@@ -1,6 +1,13 @@
 import logo from './assets/logo.png'
-import { TodoList } from './components/TodoList'
+import { TodoList } from './components/TodoList/TodoList'
 import { TodoList as TodoListType } from './types/todo'
+import {
+  appContainerStyle,
+  woodGrainOverlayStyle,
+  logoContainerStyle,
+  logoStyle,
+  todoListContainerStyle,
+} from './App.styles'
 
 // Sample data for first commit
 const sampleTodoList: TodoListType = {
@@ -17,33 +24,18 @@ const sampleTodoList: TodoListType = {
 
 function App() {
   return (
-    <div style={{ 
-      minHeight: '100vh',
-      backgroundColor: '#f3f4f6',
-      padding: '40px 20px'
-    }}>
-      {/* Logo Header */}
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        marginBottom: '40px'
-      }}>
+    <div style={appContainerStyle}>
+      <div style={woodGrainOverlayStyle} />
+      
+      <div style={logoContainerStyle}>
         <img 
           src={logo} 
           alt="Logo" 
-          style={{ 
-            maxWidth: '200px', 
-            width: '100%', 
-            height: 'auto' 
-          }} 
+          style={logoStyle} 
         />
       </div>
 
-      {/* Todo List Component */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center'
-      }}>
+      <div style={todoListContainerStyle}>
         <TodoList todoList={sampleTodoList} />
       </div>
     </div>
