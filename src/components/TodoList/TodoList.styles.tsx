@@ -9,6 +9,9 @@ export const StyledPaper = styled(Paper)({
   transform: 'rotate(-0.5deg)',
   boxShadow: '5px 5px 15px rgba(0, 0, 0, 0.3)',
   position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  minHeight: '400px',
   '&::before': {
     content: '""',
     position: 'absolute',
@@ -41,6 +44,7 @@ export const StyledDivider = styled(Divider)({
 
 export const ItemsContainer = styled(Box)({
   minHeight: '200px',
+  flex: 1,
 });
 
 export const EmptyMessage = styled(Typography)({
@@ -52,7 +56,7 @@ export const EmptyMessage = styled(Typography)({
 });
 
 export const BottomDivider = styled(Divider)({
-  marginTop: '24px',
+  marginTop: 'auto',
   marginBottom: '16px',
   borderColor: 'rgba(93, 64, 55, 0.2)',
   borderWidth: '1px',

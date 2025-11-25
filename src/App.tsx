@@ -1,6 +1,6 @@
 import logo from './assets/logo.png'
 import { TodoList } from './components/TodoList/TodoList'
-import { TodoList as TodoListType } from './types/todo'
+import { useTodoLists } from './hooks/useTodoLists'
 import {
   appContainerStyle,
   woodGrainOverlayStyle,
@@ -9,20 +9,9 @@ import {
   todoListContainerStyle,
 } from './App.styles'
 
-// Sample data for first commit
-const sampleTodoList: TodoListType = {
-  id: 1,
-  name: 'Interview Todo List',
-  items: [
-    { id: 1, name: 'Complete the coding interview', completed: false },
-    { id: 2, name: 'Review React components', completed: true },
-    { id: 3, name: 'Build reusable components', completed: true },
-    { id: 4, name: 'Add functionality to todo list', completed: false },
-    { id: 5, name: 'Connect to NestJS API', completed: false },
-  ],
-}
-
 function App() {
+  const { todoLists, loading, error } = useTodoLists();
+
   return (
     <div style={appContainerStyle}>
       <div style={woodGrainOverlayStyle} />
@@ -36,7 +25,27 @@ function App() {
       </div>
 
       <div style={todoListContainerStyle}>
-        <TodoList todoList={sampleTodoList} />
+        {loading && (
+          <div style={{ color: '#fff', textAlign: 'center', padding: '20px' }}>
+            Loading todo lists...
+          </div>
+        )}
+        
+        {error && (
+          <div style={{ color: '#ff6b6b', textAlign: 'center', padding: '20px' }}>
+            Error: {error.message}
+          </div>
+        )}
+        
+        {!loading && !error && todoLists.length === 0 && (
+          <div style={{ color: '#fff', textAlign: 'center', padding: '20px' }}>
+            No todo lists found.
+          </div>
+        )}
+        
+        {!loading && !error && todoLists.map((todoList) => (
+          <TodoList key={todoList.id} todoList={todoList} />
+        ))}
       </div>
     </div>
   )

@@ -17,7 +17,8 @@ interface TodoListProps {
 }
 
 export function TodoList({ todoList }: TodoListProps) {
-  const completedCount = todoList.items.filter((item) => item.completed).length;
+  const items = todoList.items ?? [];
+  const completedCount = items.filter((item) => item.completed).length;
   
   return (
     <StyledPaper elevation={8}>
@@ -28,12 +29,12 @@ export function TodoList({ todoList }: TodoListProps) {
       <StyledDivider />
 
       <ItemsContainer>
-        {todoList.items.length === 0 ? (
+        {items.length === 0 ? (
           <EmptyMessage>
             No items yet!
           </EmptyMessage>
         ) : (
-          todoList.items.map((item) => <TodoItem key={item.id} item={item} />)
+          items.map((item) => <TodoItem key={item.id} item={item} />)
         )}
       </ItemsContainer>
 
@@ -41,7 +42,7 @@ export function TodoList({ todoList }: TodoListProps) {
       
       <SummaryBox>
         <SummaryText>
-          Total: {todoList.items.length} item{todoList.items.length !== 1 ? 's' : ''}
+          Total: {items.length} item{items.length !== 1 ? 's' : ''}
         </SummaryText>
         <CompletedText>
           ✓ Completed: {completedCount}
