@@ -7,10 +7,12 @@ import {
   logoContainerStyle,
   logoStyle,
   todoListContainerStyle,
+  messageStyle,
+  errorMessageStyle,
 } from './App.styles'
 
 function App() {
-  const { todoLists, loading, error, updateItemLocally } = useTodoLists();
+  const { todoLists, loading, error, updateItemLocally, updateListLocally } = useTodoLists();
 
   return (
     <div style={appContainerStyle}>
@@ -26,19 +28,19 @@ function App() {
 
       <div style={todoListContainerStyle}>
         {loading && (
-          <div style={{ color: '#fff', textAlign: 'center', padding: '20px' }}>
+          <div style={messageStyle}>
             Loading todo lists...
           </div>
         )}
         
         {error && (
-          <div style={{ color: '#ff6b6b', textAlign: 'center', padding: '20px' }}>
+          <div style={errorMessageStyle}>
             Error: {error.message}
           </div>
         )}
         
         {!loading && !error && todoLists.length === 0 && (
-          <div style={{ color: '#fff', textAlign: 'center', padding: '20px' }}>
+          <div style={messageStyle}>
             No todo lists found.
           </div>
         )}
@@ -48,6 +50,7 @@ function App() {
             key={todoList.id} 
             todoList={todoList} 
             onItemUpdate={updateItemLocally}
+            onListUpdate={updateListLocally}
           />
         ))}
       </div>

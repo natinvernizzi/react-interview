@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, Divider, styled } from '@mui/material';
+import { Box, Typography, Paper, Divider, styled, TextField, IconButton } from '@mui/material';
 
 export const StyledPaper = styled(Paper)({
   backgroundColor: '#fff59d',
@@ -29,7 +29,6 @@ export const StyledPaper = styled(Paper)({
 export const StyledTitle = styled(Typography)({
   fontFamily: '"Permanent Marker", "Comic Sans MS", cursive',
   color: '#5d4037',
-  marginBottom: '24px',
   textAlign: 'center',
   textTransform: 'uppercase',
   letterSpacing: '1px',
@@ -81,3 +80,34 @@ export const CompletedText = styled(Typography)({
   fontWeight: 'bold',
 });
 
+export const TitleBox = styled(Box)({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '8px',
+  marginBottom: '24px',
+});
+
+export const EditTextField = styled(TextField)({
+  flex: 1,
+  '& .MuiInputBase-input': {
+    fontFamily: '"Permanent Marker", "Comic Sans MS", cursive',
+    color: '#5d4037',
+    fontSize: '2rem',
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    letterSpacing: '1px',
+  },
+});
+
+export const EditIconButton = styled(IconButton)({
+  color: '#5d4037',
+});
+
+export const SaveIconButton = styled(IconButton)({
+  color: '#388e3c',
+});
+
+export const CancelIconButton = styled(IconButton)({
+  color: '#d32f2f',
+});

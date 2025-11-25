@@ -36,3 +36,17 @@ export const toggleTodoItemComplete = async (
   );
   return response.data;
 };
+
+/**
+ * Updates a todo list name
+ */
+export const updateTodoList = async (
+  todoListId: number,
+  name: string
+): Promise<TodoList> => {
+  const response = await apiClient.put<TodoList>(
+    `${API_CONFIG.endpoints.todoLists}/${todoListId}`,
+    { name }
+  );
+  return response.data;
+};

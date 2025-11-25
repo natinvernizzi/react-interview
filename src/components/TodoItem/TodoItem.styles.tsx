@@ -1,7 +1,7 @@
 import { Box, Checkbox, Typography, styled } from '@mui/material';
 
-export const StyledTodoItemBox = styled(Box)<{ completed: boolean }>(
-  ({ completed }) => ({
+export const StyledTodoItemBox = styled(Box)<{ completed: boolean; isToggling?: boolean }>(
+  ({ completed, isToggling }) => ({
     display: 'flex',
     alignItems: 'center',
     padding: '12px 16px',
@@ -11,7 +11,7 @@ export const StyledTodoItemBox = styled(Box)<{ completed: boolean }>(
     boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.15)',
     transform: `rotate(${Math.random() * 2 - 1}deg)`,
     transition: 'all 0.2s ease',
-    cursor: 'pointer',
+    cursor: isToggling ? 'wait' : 'pointer',
     '&:hover': {
       transform: 'rotate(0deg) scale(1.02)',
       boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',

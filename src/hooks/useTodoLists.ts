@@ -12,6 +12,7 @@ interface UseTodoListsReturn {
     todoListId: number,
     updates: Partial<{ completed: boolean }>
   ) => void;
+  updateListLocally: (todoListId: number, name: string) => void;
 }
 
 /**
@@ -76,6 +77,14 @@ export const useTodoLists = (): UseTodoListsReturn => {
     );
   };
 
+  const updateListLocally = (todoListId: number, name: string) => {
+    setTodoLists((prevLists) =>
+      prevLists.map((list) =>
+        list.id === todoListId ? { ...list, name } : list
+      )
+    );
+  };
+
   useEffect(() => {
     fetchTodoLists();
   }, []);
@@ -86,5 +95,6 @@ export const useTodoLists = (): UseTodoListsReturn => {
     error,
     refetch: fetchTodoLists,
     updateItemLocally,
+    updateListLocally,
   };
 };

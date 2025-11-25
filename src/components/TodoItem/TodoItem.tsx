@@ -38,8 +38,8 @@ export function TodoItem({ item, todoListId, onItemUpdate }: TodoItemProps) {
   return (
     <StyledTodoItemBox 
       completed={item.completed}
+      isToggling={isToggling}
       onClick={handleToggle}
-      style={{ cursor: isToggling ? 'wait' : 'pointer' }}
     >
       <StyledCheckbox
         checked={item.completed}
