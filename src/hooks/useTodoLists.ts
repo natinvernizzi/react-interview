@@ -10,7 +10,7 @@ interface UseTodoListsReturn {
   updateItemLocally: (
     itemId: number,
     todoListId: number,
-    updates: Partial<{ completed: boolean }>
+    updates: Partial<{ completed: boolean; name: string }>
   ) => void;
   updateListLocally: (todoListId: number, name: string) => void;
 }
@@ -57,7 +57,7 @@ export const useTodoLists = (): UseTodoListsReturn => {
   const updateItemLocally = (
     itemId: number,
     todoListId: number,
-    updates: Partial<{ completed: boolean }>
+    updates: Partial<{ completed: boolean; name: string }>
   ) => {
     setTodoLists((prevLists) =>
       prevLists.map((list) => {

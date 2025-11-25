@@ -50,3 +50,17 @@ export const updateTodoList = async (
   );
   return response.data;
 };
+
+/**
+ * Updates a todo item
+ */
+export const updateTodoItem = async (
+  itemId: number,
+  updates: { name?: string; completed?: boolean }
+): Promise<TodoItem> => {
+  const response = await apiClient.put<TodoItem>(
+    `${API_CONFIG.endpoints.todoItems}/${itemId}`,
+    updates
+  );
+  return response.data;
+};
