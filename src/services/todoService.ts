@@ -23,3 +23,16 @@ export const getTodoItemsByListId = async (
   );
   return response.data;
 };
+
+/**
+ * Toggles the completed status of a todo item
+ */
+export const toggleTodoItemComplete = async (
+  itemId: number,
+  todoListId: number
+): Promise<TodoItem> => {
+  const response = await apiClient.patch<TodoItem>(
+    `${API_CONFIG.endpoints.todoItems}/${itemId}/${todoListId}/toggle`
+  );
+  return response.data;
+};

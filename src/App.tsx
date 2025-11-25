@@ -10,7 +10,7 @@ import {
 } from './App.styles'
 
 function App() {
-  const { todoLists, loading, error } = useTodoLists();
+  const { todoLists, loading, error, updateItemLocally } = useTodoLists();
 
   return (
     <div style={appContainerStyle}>
@@ -44,7 +44,11 @@ function App() {
         )}
         
         {!loading && !error && todoLists.map((todoList) => (
-          <TodoList key={todoList.id} todoList={todoList} />
+          <TodoList 
+            key={todoList.id} 
+            todoList={todoList} 
+            onItemUpdate={updateItemLocally}
+          />
         ))}
       </div>
     </div>

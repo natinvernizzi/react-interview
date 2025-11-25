@@ -14,9 +14,10 @@ import {
 
 interface TodoListProps {
   todoList: TodoListType;
+  onItemUpdate: (itemId: number, todoListId: number, updates: Partial<{ completed: boolean }>) => void;
 }
 
-export function TodoList({ todoList }: TodoListProps) {
+export function TodoList({ todoList, onItemUpdate }: TodoListProps) {
   const items = todoList.items ?? [];
   const completedCount = items.filter((item) => item.completed).length;
   
@@ -34,7 +35,14 @@ export function TodoList({ todoList }: TodoListProps) {
             No items yet!
           </EmptyMessage>
         ) : (
-          items.map((item) => <TodoItem key={item.id} item={item} />)
+          items.map((item) => (
+            <TodoItem
+              key={item.id}
+              item={item}
+              todoListId={todoList.id}
+              onItemUpdate={onItemUpdate}
+            />
+          ))
         )}
       </ItemsContainer>
 
@@ -51,4 +59,3 @@ export function TodoList({ todoList }: TodoListProps) {
     </StyledPaper>
   );
 }
-

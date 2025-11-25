@@ -7,6 +7,11 @@ interface UseTodoListsReturn {
   loading: boolean;
   error: Error | null;
   refetch: () => Promise<void>;
+  updateItemLocally: (
+    itemId: number,
+    todoListId: number,
+    updates: Partial<{ completed: boolean }>
+  ) => void;
 }
 
 /**
@@ -29,14 +34,14 @@ export const useTodoLists = (): UseTodoListsReturn => {
       const listsWithItems = await Promise.all(
         lists.map(async (list) => {
           const items = await getTodoItemsByListId(list.id);
-          console.log(list.id, items);
+          // Sort items by id
+          const sortedItems = [...items].sort((a, b) => a.id - b.id);
           return {
             ...list,
-            items,
+            items: sortedItems,
           };
         })
       );
-      console.log(listsWithItems);
       setTodoLists(listsWithItems);
     } catch (err) {
       setError(
@@ -48,6 +53,29 @@ export const useTodoLists = (): UseTodoListsReturn => {
     }
   };
 
+  const updateItemLocally = (
+    itemId: number,
+    todoListId: number,
+    updates: Partial<{ completed: boolean }>
+  ) => {
+    setTodoLists((prevLists) =>
+      prevLists.map((list) => {
+        if (list.id === todoListId) {
+          const updatedItems = list.items?.map((item) =>
+            item.id === itemId ? { ...item, ...updates } : item
+          );
+          // Keep items sorted by id
+          const sortedItems = updatedItems?.sort((a, b) => a.id - b.id);
+          return {
+            ...list,
+            items: sortedItems,
+          };
+        }
+        return list;
+      })
+    );
+  };
+
   useEffect(() => {
     fetchTodoLists();
   }, []);
@@ -57,5 +85,6 @@ export const useTodoLists = (): UseTodoListsReturn => {
     loading,
     error,
     refetch: fetchTodoLists,
+    updateItemLocally,
   };
 };
