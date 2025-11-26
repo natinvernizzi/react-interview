@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { TodoList } from "../types/todo";
+import { TodoList, TodoItem } from "../types/todo";
 import { getTodoLists, getTodoItemsByListId } from "../services/todoService";
 
 interface UseTodoListsReturn {
@@ -15,6 +15,7 @@ interface UseTodoListsReturn {
   updateListLocally: (todoListId: number, name: string) => void;
   deleteListLocally: (todoListId: number) => void;
   deleteItemLocally: (itemId: number, todoListId: number) => void;
+  addItemLocally: (todoListId: number, item: TodoItem) => void;
 }
 
 /**
@@ -107,6 +108,23 @@ export const useTodoLists = (): UseTodoListsReturn => {
     );
   };
 
+  const addItemLocally = (todoListId: number, item: TodoItem) => {
+    setTodoLists((prevLists) =>
+      prevLists.map((list) => {
+        if (list.id === todoListId) {
+          const updatedItems = [...(list.items || []), item];
+          // Keep items sorted by id
+          const sortedItems = updatedItems.sort((a, b) => a.id - b.id);
+          return {
+            ...list,
+            items: sortedItems,
+          };
+        }
+        return list;
+      })
+    );
+  };
+
   useEffect(() => {
     fetchTodoLists();
   }, []);
@@ -120,5 +138,6 @@ export const useTodoLists = (): UseTodoListsReturn => {
     updateListLocally,
     deleteListLocally,
     deleteItemLocally,
+    addItemLocally,
   };
 };

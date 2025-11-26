@@ -78,3 +78,21 @@ export const deleteTodoList = async (todoListId: number): Promise<void> => {
 export const deleteTodoItem = async (itemId: number): Promise<void> => {
   await apiClient.delete(`${API_CONFIG.endpoints.todoItems}/${itemId}`);
 };
+
+/**
+ * Creates a new todo item
+ */
+export const createTodoItem = async (
+  name: string,
+  todoListId: number
+): Promise<TodoItem> => {
+  const response = await apiClient.post<TodoItem>(
+    API_CONFIG.endpoints.todoItems,
+    {
+      name,
+      completed: false,
+      todoList: { id: todoListId },
+    }
+  );
+  return response.data;
+};

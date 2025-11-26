@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { TodoList as TodoListType } from '../../types/todo';
+import { TodoList as TodoListType, TodoItem as TodoItemType } from '../../types/todo';
 import { TodoItem } from '../TodoItem/TodoItem';
-import { updateTodoList, deleteTodoList } from '../../services/todoService';
+import { updateTodoList, deleteTodoList, createTodoItem } from '../../services/todoService';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import {
   StyledPaper,
   StyledTitle,
@@ -24,6 +25,9 @@ import {
   SaveIconButton,
   CancelIconButton,
   DeleteIconButton,
+  AddItemBox,
+  AddItemTextField,
+  AddItemButton,
 } from './TodoList.styles';
 
 interface TodoListProps {
@@ -32,14 +36,17 @@ interface TodoListProps {
   onListUpdate: (todoListId: number, name: string) => void;
   onListDelete: (todoListId: number) => void;
   onItemDelete: (itemId: number, todoListId: number) => void;
+  onItemAdd: (todoListId: number, item: TodoItemType) => void;
 }
 
-export function TodoList({ todoList, onItemUpdate, onListUpdate, onListDelete, onItemDelete }: TodoListProps) {
+export function TodoList({ todoList, onItemUpdate, onListUpdate, onListDelete, onItemDelete, onItemAdd }: TodoListProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(todoList.name);
   const [isSaving, setIsSaving] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [newItemName, setNewItemName] = useState('');
+  const [isAdding, setIsAdding] = useState(false);
   
   const items = todoList.items ?? [];
   const completedCount = items.filter((item) => item.completed).length;
@@ -108,6 +115,37 @@ export function TodoList({ todoList, onItemUpdate, onListUpdate, onListDelete, o
       // Note: In a production app, you'd want to refetch or revert the optimistic delete
     } finally {
       setIsDeleting(false);
+    }
+  };
+
+  const handleAddItem = async () => {
+    if (!newItemName.trim() || newItemName.trim().length < 3) {
+      return;
+    }
+
+    try {
+      setIsAdding(true);
+      
+      // Call API
+      const newItem = await createTodoItem(newItemName.trim(), todoList.id);
+      
+      // Add to local state
+      onItemAdd(todoList.id, newItem);
+      
+      // Clear input
+      setNewItemName('');
+    } catch (error) {
+      console.error('Error adding todo item:', error);
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
+  const handleAddKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleAddItem();
+    } else if (e.key === 'Escape') {
+      setNewItemName('');
     }
   };
   
@@ -202,6 +240,24 @@ export function TodoList({ todoList, onItemUpdate, onListUpdate, onListDelete, o
             />
           ))
         )}
+        
+        <AddItemBox>
+          <AddItemTextField
+            value={newItemName}
+            onChange={(e) => setNewItemName(e.target.value)}
+            onKeyDown={handleAddKeyDown}
+            placeholder="Add new item..."
+            disabled={isAdding}
+            variant="standard"
+          />
+          <AddItemButton
+            onClick={handleAddItem}
+            disabled={isAdding || newItemName.trim().length < 3}
+            size="small"
+          >
+            <AddIcon />
+          </AddItemButton>
+        </AddItemBox>
       </ItemsContainer>
 
       <BottomDivider />
