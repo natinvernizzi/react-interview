@@ -70,3 +70,51 @@ export const errorMessageStyle: CSSProperties = {
   textAlign: "center",
   padding: "20px",
 };
+
+export const addListContainerStyle: CSSProperties = {
+  display: "flex",
+  justifyContent: "center",
+  marginTop: "30px",
+  position: "relative",
+  zIndex: 1,
+};
+
+export const addListBoxStyle: CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  padding: "20px 32px",
+  backgroundColor: "rgba(255, 249, 196, 0.9)",
+  borderRadius: "4px",
+  border: "3px dashed rgba(93, 64, 55, 0.4)",
+  boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.2)",
+  maxWidth: "600px",
+  width: "100%",
+};
+
+export const addListInputStyle: CSSProperties = {
+  flex: 1,
+  fontSize: "18px",
+  fontFamily: "system-ui, -apple-system, sans-serif",
+  color: "#5d4037",
+  padding: "12px 16px",
+  border: "2px solid rgba(93, 64, 55, 0.3)",
+  borderRadius: "4px",
+  backgroundColor: "#fff",
+  outline: "none",
+};
+
+export const addListButtonStyle: CSSProperties = {
+  fontSize: "16px",
+  fontFamily: "system-ui, -apple-system, sans-serif",
+  color: "#fff",
+  backgroundColor: "#388e3c",
+  padding: "12px 24px",
+  border: "none",
+  borderRadius: "4px",
+  cursor: "pointer",
+  textTransform: "uppercase",
+  letterSpacing: "1px",
+  boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)",
+  transition: "all 0.2s ease",
+};

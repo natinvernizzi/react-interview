@@ -16,6 +16,7 @@ interface UseTodoListsReturn {
   deleteListLocally: (todoListId: number) => void;
   deleteItemLocally: (itemId: number, todoListId: number) => void;
   addItemLocally: (todoListId: number, item: TodoItem) => void;
+  addListLocally: (list: TodoList) => void;
 }
 
 /**
@@ -125,6 +126,10 @@ export const useTodoLists = (): UseTodoListsReturn => {
     );
   };
 
+  const addListLocally = (list: TodoList) => {
+    setTodoLists((prevLists) => [...prevLists, { ...list, items: [] }]);
+  };
+
   useEffect(() => {
     fetchTodoLists();
   }, []);
@@ -139,5 +144,6 @@ export const useTodoLists = (): UseTodoListsReturn => {
     deleteListLocally,
     deleteItemLocally,
     addItemLocally,
+    addListLocally,
   };
 };

@@ -96,3 +96,14 @@ export const createTodoItem = async (
   );
   return response.data;
 };
+
+/**
+ * Creates a new todo list
+ */
+export const createTodoList = async (name: string): Promise<TodoList> => {
+  const response = await apiClient.post<TodoList>(
+    API_CONFIG.endpoints.todoLists,
+    { name }
+  );
+  return response.data;
+};
