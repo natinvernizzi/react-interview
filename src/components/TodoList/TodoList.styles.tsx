@@ -29,7 +29,7 @@ export const StyledPaper = styled(Paper)({
 export const StyledTitle = styled(Typography)({
   fontFamily: '"Permanent Marker", "Comic Sans MS", cursive',
   color: '#5d4037',
-  textAlign: 'center',
+  textAlign: 'left',
   textTransform: 'uppercase',
   letterSpacing: '1px',
   textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)',
@@ -83,9 +83,14 @@ export const CompletedText = styled(Typography)({
 export const TitleBox = styled(Box)({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
-  gap: '8px',
+  justifyContent: 'space-between',
   marginBottom: '24px',
+});
+
+export const IconsContainer = styled(Box)({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0px',
 });
 
 export const EditTextField = styled(TextField)({
@@ -110,4 +115,8 @@ export const SaveIconButton = styled(IconButton)({
 
 export const CancelIconButton = styled(IconButton)({
   color: '#d32f2f',
+});
+
+export const DeleteIconButton = styled(IconButton)({
+  color: '#5d4037',
 });

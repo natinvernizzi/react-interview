@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { TodoList as TodoListType } from '../../types/todo';
 import { TodoItem } from '../TodoItem/TodoItem';
-import { updateTodoList } from '../../services/todoService';
+import { updateTodoList, deleteTodoList } from '../../services/todoService';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
   StyledPaper,
   StyledTitle,
@@ -16,22 +18,28 @@ import {
   SummaryText,
   CompletedText,
   TitleBox,
+  IconsContainer,
   EditTextField,
   EditIconButton,
   SaveIconButton,
   CancelIconButton,
+  DeleteIconButton,
 } from './TodoList.styles';
 
 interface TodoListProps {
   todoList: TodoListType;
-  onItemUpdate: (itemId: number, todoListId: number, updates: Partial<{ completed: boolean }>) => void;
+  onItemUpdate: (itemId: number, todoListId: number, updates: Partial<{ completed: boolean; name: string }>) => void;
   onListUpdate: (todoListId: number, name: string) => void;
+  onListDelete: (todoListId: number) => void;
+  onItemDelete: (itemId: number, todoListId: number) => void;
 }
 
-export function TodoList({ todoList, onItemUpdate, onListUpdate }: TodoListProps) {
+export function TodoList({ todoList, onItemUpdate, onListUpdate, onListDelete, onItemDelete }: TodoListProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(todoList.name);
   const [isSaving, setIsSaving] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   
   const items = todoList.items ?? [];
   const completedCount = items.filter((item) => item.completed).length;
@@ -77,8 +85,54 @@ export function TodoList({ todoList, onItemUpdate, onListUpdate }: TodoListProps
       handleCancelEdit();
     }
   };
+
+  const handleDeleteClick = () => {
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteDialogOpen(false);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      setIsDeleting(true);
+      // Optimistic delete
+      onListDelete(todoList.id);
+      setDeleteDialogOpen(false);
+      
+      // Call API
+      await deleteTodoList(todoList.id);
+    } catch (error) {
+      console.error('Error deleting todo list:', error);
+      // Note: In a production app, you'd want to refetch or revert the optimistic delete
+    } finally {
+      setIsDeleting(false);
+    }
+  };
   
   return (
+    <>
+      <Dialog
+        open={deleteDialogOpen}
+        onClose={handleDeleteCancel}
+      >
+        <DialogTitle>Delete Todo List?</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete "{todoList.name}"? This will also delete all {items.length} item{items.length !== 1 ? 's' : ''} in this list. This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteCancel} disabled={isDeleting}>
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteConfirm} color="error" disabled={isDeleting}>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+    
     <StyledPaper elevation={8}>
       <TitleBox>
         {isEditing ? (
@@ -112,12 +166,20 @@ export function TodoList({ todoList, onItemUpdate, onListUpdate }: TodoListProps
             <StyledTitle variant="h4">
               {todoList.name}
             </StyledTitle>
-            <EditIconButton
-              onClick={handleEditClick}
-              size="small"
-            >
-              <EditIcon />
-            </EditIconButton>
+            <IconsContainer>
+              <EditIconButton
+                onClick={handleEditClick}
+                size="small"
+              >
+                <EditIcon />
+              </EditIconButton>
+              <DeleteIconButton
+                onClick={handleDeleteClick}
+                size="small"
+              >
+                <DeleteIcon />
+              </DeleteIconButton>
+            </IconsContainer>
           </>
         )}
       </TitleBox>
@@ -136,6 +198,7 @@ export function TodoList({ todoList, onItemUpdate, onListUpdate }: TodoListProps
               item={item}
               todoListId={todoList.id}
               onItemUpdate={onItemUpdate}
+              onItemDelete={onItemDelete}
             />
           ))
         )}
@@ -152,5 +215,6 @@ export function TodoList({ todoList, onItemUpdate, onListUpdate }: TodoListProps
         </CompletedText>
       </SummaryBox>
     </StyledPaper>
+    </>
   );
 }

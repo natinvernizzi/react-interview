@@ -13,6 +13,8 @@ interface UseTodoListsReturn {
     updates: Partial<{ completed: boolean; name: string }>
   ) => void;
   updateListLocally: (todoListId: number, name: string) => void;
+  deleteListLocally: (todoListId: number) => void;
+  deleteItemLocally: (itemId: number, todoListId: number) => void;
 }
 
 /**
@@ -85,6 +87,26 @@ export const useTodoLists = (): UseTodoListsReturn => {
     );
   };
 
+  const deleteListLocally = (todoListId: number) => {
+    setTodoLists((prevLists) =>
+      prevLists.filter((list) => list.id !== todoListId)
+    );
+  };
+
+  const deleteItemLocally = (itemId: number, todoListId: number) => {
+    setTodoLists((prevLists) =>
+      prevLists.map((list) => {
+        if (list.id === todoListId) {
+          return {
+            ...list,
+            items: list.items?.filter((item) => item.id !== itemId),
+          };
+        }
+        return list;
+      })
+    );
+  };
+
   useEffect(() => {
     fetchTodoLists();
   }, []);
@@ -96,5 +118,7 @@ export const useTodoLists = (): UseTodoListsReturn => {
     refetch: fetchTodoLists,
     updateItemLocally,
     updateListLocally,
+    deleteListLocally,
+    deleteItemLocally,
   };
 };

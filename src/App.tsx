@@ -12,7 +12,7 @@ import {
 } from './App.styles'
 
 function App() {
-  const { todoLists, loading, error, updateItemLocally, updateListLocally } = useTodoLists();
+  const { todoLists, loading, error, updateItemLocally, updateListLocally, deleteListLocally, deleteItemLocally } = useTodoLists();
 
   return (
     <div style={appContainerStyle}>
@@ -51,6 +51,8 @@ function App() {
             todoList={todoList} 
             onItemUpdate={updateItemLocally}
             onListUpdate={updateListLocally}
+            onListDelete={deleteListLocally}
+            onItemDelete={deleteItemLocally}
           />
         ))}
       </div>

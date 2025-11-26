@@ -64,3 +64,17 @@ export const updateTodoItem = async (
   );
   return response.data;
 };
+
+/**
+ * Deletes a todo list
+ */
+export const deleteTodoList = async (todoListId: number): Promise<void> => {
+  await apiClient.delete(`${API_CONFIG.endpoints.todoLists}/${todoListId}`);
+};
+
+/**
+ * Deletes a todo item
+ */
+export const deleteTodoItem = async (itemId: number): Promise<void> => {
+  await apiClient.delete(`${API_CONFIG.endpoints.todoItems}/${itemId}`);
+};

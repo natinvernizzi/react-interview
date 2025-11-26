@@ -95,3 +95,11 @@ export const ItemCancelIconButton = styled(IconButton)({
     backgroundColor: 'rgba(211, 47, 47, 0.1)',
   },
 });
+
+export const ItemDeleteIconButton = styled(IconButton)({
+  padding: '4px',
+  color: '#5d4037',
+  '&:hover': {
+    backgroundColor: 'rgba(93, 64, 55, 0.1)',
+  },
+});
