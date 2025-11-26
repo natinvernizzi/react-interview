@@ -4,8 +4,8 @@ export const StyledTodoItemBox = styled(Box)<{ completed: boolean; isToggling?: 
   ({ completed, isToggling }) => ({
     display: 'flex',
     alignItems: 'center',
-    padding: '12px 16px',
-    marginBottom: '12px',
+    padding: '8px 12px',
+    marginBottom: '8px',
     backgroundColor: completed ? '#e8f5e9' : '#fff9c4',
     borderRadius: '4px',
     boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.15)',
@@ -31,7 +31,7 @@ export const StyledCheckbox = styled(Checkbox)<{ completed: boolean }>(
 export const StyledItemText = styled(Typography)<{ completed: boolean }>(
   ({ completed }) => ({
     flex: 1,
-    fontSize: '16px',
+    fontSize: '14px',
     fontFamily: 'system-ui, -apple-system, sans-serif',
     color: completed ? '#388e3c' : '#5d4037',
     textDecoration: completed ? 'line-through' : 'none',
@@ -44,8 +44,8 @@ export const EditItemBox = styled(Box)<{ completed: boolean }>(
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
-    padding: '12px 16px',
-    marginBottom: '12px',
+    padding: '8px 12px',
+    marginBottom: '8px',
     backgroundColor: completed ? '#e8f5e9' : '#fff9c4',
     borderRadius: '4px',
     boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.15)',
@@ -56,7 +56,7 @@ export const EditItemBox = styled(Box)<{ completed: boolean }>(
 export const EditItemTextField = styled(TextField)({
   flex: 1,
   '& .MuiInputBase-input': {
-    fontSize: '16px',
+    fontSize: '14px',
     fontFamily: 'system-ui, -apple-system, sans-serif',
     color: '#5d4037',
     padding: '4px 8px',

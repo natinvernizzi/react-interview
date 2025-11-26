@@ -127,7 +127,7 @@ export const useTodoLists = (): UseTodoListsReturn => {
   };
 
   const addListLocally = (list: TodoList) => {
-    setTodoLists((prevLists) => [...prevLists, { ...list, items: [] }]);
+    setTodoLists((prevLists) => [{ ...list, items: [] }, ...prevLists]);
   };
 
   useEffect(() => {

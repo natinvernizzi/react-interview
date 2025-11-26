@@ -65,6 +65,33 @@ function App() {
         />
       </div>
 
+      {!loading && !error && (
+        <div style={addListContainerStyle}>
+          <div style={addListBoxStyle}>
+            <input
+              type="text"
+              value={newListName}
+              onChange={(e) => setNewListName(e.target.value)}
+              onKeyDown={handleAddListKeyDown}
+              placeholder="Create a new list..."
+              disabled={isAddingList}
+              style={addListInputStyle}
+            />
+            <button
+              onClick={handleAddList}
+              disabled={isAddingList || newListName.trim().length < 3}
+              style={{
+                ...addListButtonStyle,
+                opacity: isAddingList || newListName.trim().length < 3 ? 0.5 : 1,
+                cursor: isAddingList || newListName.trim().length < 3 ? 'not-allowed' : 'pointer',
+              }}
+            >
+              {isAddingList ? 'Adding...' : '+ Add List'}
+            </button>
+          </div>
+        </div>
+      )}
+
       <div style={todoListContainerStyle}>
         {loading && (
           <div style={messageStyle}>
@@ -96,33 +123,6 @@ function App() {
           />
         ))}
       </div>
-
-      {!loading && !error && (
-        <div style={addListContainerStyle}>
-          <div style={addListBoxStyle}>
-            <input
-              type="text"
-              value={newListName}
-              onChange={(e) => setNewListName(e.target.value)}
-              onKeyDown={handleAddListKeyDown}
-              placeholder="Create a new list..."
-              disabled={isAddingList}
-              style={addListInputStyle}
-            />
-            <button
-              onClick={handleAddList}
-              disabled={isAddingList || newListName.trim().length < 3}
-              style={{
-                ...addListButtonStyle,
-                opacity: isAddingList || newListName.trim().length < 3 ? 0.5 : 1,
-                cursor: isAddingList || newListName.trim().length < 3 ? 'not-allowed' : 'pointer',
-              }}
-            >
-              {isAddingList ? 'Adding...' : '+ Add List'}
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

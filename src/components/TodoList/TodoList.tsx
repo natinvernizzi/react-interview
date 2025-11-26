@@ -28,6 +28,7 @@ import {
   AddItemBox,
   AddItemTextField,
   AddItemButton,
+  ShowMoreButton,
 } from './TodoList.styles';
 
 interface TodoListProps {
@@ -47,9 +48,13 @@ export function TodoList({ todoList, onItemUpdate, onListUpdate, onListDelete, o
   const [isDeleting, setIsDeleting] = useState(false);
   const [newItemName, setNewItemName] = useState('');
   const [isAdding, setIsAdding] = useState(false);
+  const [showAll, setShowAll] = useState(false);
   
   const items = todoList.items ?? [];
   const completedCount = items.filter((item) => item.completed).length;
+  const MAX_ITEMS_SHOWN = 5;
+  const hasMoreItems = items.length > MAX_ITEMS_SHOWN;
+  const displayedItems = showAll ? items : items.slice(0, MAX_ITEMS_SHOWN);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -230,15 +235,29 @@ export function TodoList({ todoList, onItemUpdate, onListUpdate, onListDelete, o
             No items yet!
           </EmptyMessage>
         ) : (
-          items.map((item) => (
-            <TodoItem
-              key={item.id}
-              item={item}
-              todoListId={todoList.id}
-              onItemUpdate={onItemUpdate}
-              onItemDelete={onItemDelete}
-            />
-          ))
+          <>
+            {displayedItems.map((item) => (
+              <TodoItem
+                key={item.id}
+                item={item}
+                todoListId={todoList.id}
+                onItemUpdate={onItemUpdate}
+                onItemDelete={onItemDelete}
+              />
+            ))}
+            
+            {hasMoreItems && (
+              <ShowMoreButton
+                onClick={() => setShowAll(!showAll)}
+                variant="text"
+              >
+                {showAll 
+                  ? '▲ Show Less' 
+                  : `▼ Show ${items.length - MAX_ITEMS_SHOWN} More Item${items.length - MAX_ITEMS_SHOWN !== 1 ? 's' : ''}`
+                }
+              </ShowMoreButton>
+            )}
+          </>
         )}
         
         <AddItemBox>

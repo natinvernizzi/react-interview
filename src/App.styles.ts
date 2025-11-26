@@ -54,7 +54,11 @@ export const logoStyle: CSSProperties = {
 
 export const todoListContainerStyle: CSSProperties = {
   display: "flex",
+  flexWrap: "wrap",
   justifyContent: "center",
+  gap: "20px",
+  maxWidth: "1400px",
+  margin: "0 auto",
   position: "relative",
   zIndex: 1,
 };
@@ -74,7 +78,7 @@ export const errorMessageStyle: CSSProperties = {
 export const addListContainerStyle: CSSProperties = {
   display: "flex",
   justifyContent: "center",
-  marginTop: "30px",
+  marginBottom: "30px",
   position: "relative",
   zIndex: 1,
 };
@@ -83,10 +87,10 @@ export const addListBoxStyle: CSSProperties = {
   display: "flex",
   alignItems: "center",
   gap: "12px",
-  padding: "20px 32px",
+  padding: "16px 24px",
   backgroundColor: "rgba(255, 249, 196, 0.9)",
   borderRadius: "4px",
-  border: "3px dashed rgba(93, 64, 55, 0.4)",
+  border: "2px dashed rgba(93, 64, 55, 0.4)",
   boxShadow: "3px 3px 10px rgba(0, 0, 0, 0.2)",
   maxWidth: "600px",
   width: "100%",
@@ -94,10 +98,10 @@ export const addListBoxStyle: CSSProperties = {
 
 export const addListInputStyle: CSSProperties = {
   flex: 1,
-  fontSize: "18px",
+  fontSize: "16px",
   fontFamily: "system-ui, -apple-system, sans-serif",
   color: "#5d4037",
-  padding: "12px 16px",
+  padding: "10px 14px",
   border: "2px solid rgba(93, 64, 55, 0.3)",
   borderRadius: "4px",
   backgroundColor: "#fff",
@@ -105,11 +109,11 @@ export const addListInputStyle: CSSProperties = {
 };
 
 export const addListButtonStyle: CSSProperties = {
-  fontSize: "16px",
+  fontSize: "14px",
   fontFamily: "system-ui, -apple-system, sans-serif",
   color: "#fff",
   backgroundColor: "#388e3c",
-  padding: "12px 24px",
+  padding: "10px 20px",
   border: "none",
   borderRadius: "4px",
   cursor: "pointer",
